@@ -16,7 +16,7 @@ export class SaleController {
         }
     }
 
-    getAll = async (res: Response) => {
+    getAll = async (req: Request, res: Response) => {
         try {
             res.json(await this.saleService.getAll());
         } catch (error: unknown) {

@@ -18,8 +18,8 @@ export class SaleService {
     }
 
     private validateStatus(status: string): boolean {
-        const validStatuses = ['pending', 'completed', 'canceled'];
-        return validStatuses.includes(status);
+        const validStatuses = ["pending", "completed", "canceled"];
+        return !validStatuses.includes(status);
     }
 
     private validateBusinessRules(sale: CreateSaleDTO) {

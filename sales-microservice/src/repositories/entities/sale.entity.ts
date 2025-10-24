@@ -1,10 +1,8 @@
 import { DataTypes, Model } from "sequelize";
-import { Sequelize } from "sequelize";
+import { sequelize } from "@/config/database";
 import { Sale } from "@/models/sale.model";
 import { CreateSaleDTO } from "@/models/dtos/create-sale.dto";
 
-// Mientras tanto
-const sequelize = new Sequelize() 
 export class SaleEntity
     extends Model<Sale, CreateSaleDTO>
     implements Sale {
@@ -41,7 +39,8 @@ SaleEntity.init(
         },
         createdAt: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
         },
     },
     {
