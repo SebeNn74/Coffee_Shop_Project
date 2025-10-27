@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: coffee_shop_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: coffee_shop_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "3306:3306"
+    volumes:
+      - coffee_mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - coffee-network
+
+  customers-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: customers-service
+    restart: always
+    environment:
+      - PORT=3001
+      - DB_NAME=coffee_shop_db
+      - DB_USER=admin
+      - DB_PASS=admin123
+      - DB_HOST=mysql
+      - DB_PORT=3306
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mysql
+    networks:
+      - coffee-network
+
+volumes:
+  coffee_mysql_data:
+
+networks:
+  coffee-network:
+    driver: bridge
