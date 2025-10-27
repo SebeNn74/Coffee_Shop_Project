@@ -1,4 +1,4 @@
-export interface SaleItems {
+export interface CreateSaleItemsDTO {
     saleId: number;
     productId: number;
     quantity: number;

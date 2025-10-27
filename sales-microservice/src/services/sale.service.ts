@@ -1,6 +1,8 @@
 import { SaleRepository } from "@/repositories/sale.sequelize.repo";
 import { Sale } from "@/models/sale.model"
 import { CreateSaleDTO } from "@/models/dtos/create-sale.dto"
+import { NotFoundError } from "@/exceptions/domain.error";
+import { InvalidValueError } from "@/exceptions/validation.error";
 
 export class SaleService {
     private saleRepo: SaleRepository;
@@ -24,13 +26,13 @@ export class SaleService {
 
     private validateBusinessRules(sale: CreateSaleDTO) {
         if (this.validateId(sale.userId))
-            throw new Error ("InvalidUserId")
+            throw new InvalidValueError("userId", "INVALID_USER_ID")
         if (this.validateId(sale.customerId))
-            throw new Error ("InvalidCustomerId")
+            throw new InvalidValueError("customerId", "INVALID_CUSTOMER_ID")
         if (this.validateTotalAmount(sale.totalAmount))
-            throw new Error ("InvalidTotalAmount")     
+            throw new InvalidValueError("totalAmount", "INVALID_TOTAL_AMOUNT")     
         if (this.validateStatus(sale.status))
-            throw new Error ("InvalidStatus")
+            throw new InvalidValueError("status", "INVALID_STATUS")
     }
 
     async getAll(): Promise<Sale[]> {
@@ -40,7 +42,7 @@ export class SaleService {
     async getById(id: number): Promise<Sale> {
         const sale = await this.saleRepo.getById(id);
         if (!sale)
-            throw new Error(`Venta con id ${id} no encontrada`)
+            throw new NotFoundError(`Venta con id ${id} no encontrada`)
         return sale;
     }
 
@@ -51,14 +53,14 @@ export class SaleService {
 
     async update(id: number, saleDTO: CreateSaleDTO): Promise<Sale | null> {
         if (this.validateId(id))
-            throw new Error ("InvalidSaleId")
+            throw new InvalidValueError("id", "INVALID_SALE_ID")
         this.validateBusinessRules(saleDTO)
         return await this.saleRepo.update(id, saleDTO)
     }
 
     async delete(id: number): Promise<void> {
         if (this.validateId(id))
-            throw new Error ("InvalidSaleId")
+            throw new InvalidValueError("id", "INVALID_SALE_ID")
         this.saleRepo.delete(id);
     }
 

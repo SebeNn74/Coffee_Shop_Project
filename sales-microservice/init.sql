@@ -6,3 +6,12 @@ CREATE TABLE sales (
     status VARCHAR(10) NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE sale_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    saleId INT NOT NULL,
+    productId INT NOT NULL,
+    quantity INT NOT NULL,
+    unitPrice INT NOT NULL,
+    discount INT
+)
