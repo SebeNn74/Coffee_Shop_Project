@@ -1,3 +1,5 @@
+import { Sale } from "./sale.model";
+
 export interface SaleItems {
     id: number;
     saleId: number;
@@ -5,4 +7,5 @@ export interface SaleItems {
     quantity: number;
     unitPrice: number;
     discount?: number;
+    sale?: Sale;
 }

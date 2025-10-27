@@ -1,10 +1,17 @@
 import { Sale } from "@/models/sale.model"
 import { SaleEntity } from "./entities/sale.entity"
+import { SaleItemEntity } from "./entities/sale_item.entity";
 
 export class SaleRepository {
     
     async getAll(): Promise<Sale[]> {
-        const sales = await SaleEntity.findAll();
+        const sales = await SaleEntity.findAll({
+            include: [{
+                model: SaleItemEntity,
+                as: 'sale_items',
+                attributes: ['id', 'saleId', 'productId', 'quantity', 'unitPrice', 'discount']
+            }]
+        });
         return sales.map(s => s.toJSON() as Sale)
     }
 
