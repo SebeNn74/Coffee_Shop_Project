@@ -1,9 +1,9 @@
-import express from 'express';
-// import orderRouter from './infrastructure/api/order.router';
+import express from "express";
+import usersRouter from "./routers/user.router";
 
 const app = express();
 app.use(express.json());
 
-// app.use('/orders', orderRouter);
+app.use("/users", usersRouter);
 
 export default app;

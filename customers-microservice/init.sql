@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS customers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    address VARCHAR(255),
+    city VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL,
+    category VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customerId INT NOT NULL,
+    total DECIMAL(10, 2) NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customerId) REFERENCES customers(id)
+);
+
+CREATE TABLE IF NOT EXISTS sale_details (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    saleId INT NOT NULL,
+    productId INT NOT NULL,
+    quantity INT NOT NULL,
+    unitPrice DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (saleId) REFERENCES sales(id),
+    FOREIGN KEY (productId) REFERENCES products(id)
+);
