@@ -1,7 +1,18 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../config/database";
 
-export class Product extends Model {
+export interface ProductAttributes {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+}
+
+export interface ProductCreationAttributes extends Optional<ProductAttributes, "id"> {}
+
+export class Product extends Model<ProductAttributes, ProductCreationAttributes> 
+  implements ProductAttributes {
   declare id: number;
   declare name: string;
   declare description: string;

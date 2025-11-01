@@ -1,8 +1,17 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../config/database";
 import { Product } from "./product.model";
 
-export class ProductStock extends Model {
+export interface ProductStockAttributes {
+  id: number;
+  product_id: number;
+  quantity: number;
+}
+
+export interface ProductStockCreationAttributes extends Optional<ProductStockAttributes, "id"> {}
+
+export class ProductStock extends Model<ProductStockAttributes, ProductStockCreationAttributes> 
+  implements ProductStockAttributes {
   declare id: number;
   declare product_id: number;
   declare quantity: number;
