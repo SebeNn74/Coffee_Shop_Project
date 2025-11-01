@@ -1,7 +1,8 @@
 import { ProductStock } from "../models/productStock.model";
+import { ProductStockCreationAttrs } from "../models/dtos/product.dto";
 
 export const ProductStockRepository = {
-  create: (data: any) => ProductStock.create(data),
+  create: (data: ProductStockCreationAttrs) => ProductStock.create(data),
 
   updateQuantity: (product_id: number, quantity: number) =>
     ProductStock.update({ quantity }, { where: { product_id } }),
