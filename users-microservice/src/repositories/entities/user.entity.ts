@@ -11,7 +11,7 @@ export class UserEntity
     declare name: string;
     declare lastName: string;
     declare email: string;
-    declare passwor d: string;
+    declare password: string;
 }
 
 // Inicialización de la entidad User
