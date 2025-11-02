@@ -1,0 +1,104 @@
+services:
+  coffee_shop_mysql:
+    image: mysql:8.0
+    container_name: coffee_shop_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: coffee_shop_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "3306:3306"
+    volumes:
+      - coffee_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - coffee-network
+
+  users-service:
+    build: ./users-microservice
+    container_name: users-service
+    restart: always
+    environment:
+      DB_HOST: coffee_shop_mysql
+      DB_PORT: 3306
+      DB_USER: admin
+      DB_PASS: admin123
+      DB_NAME: coffee_shop_db
+      PORT: 3001
+    depends_on:
+      coffee_shop_mysql:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+    networks:
+      - coffee-network
+
+  customers-service:
+    build: ./customers-microservice
+    container_name: customers-service
+    restart: always
+    environment:
+      DB_HOST: coffee_shop_mysql
+      DB_PORT: 3306
+      DB_USER: admin
+      DB_PASS: admin123
+      DB_NAME: coffee_shop_db
+      PORT: 3002
+    depends_on:
+      coffee_shop_mysql:
+        condition: service_healthy
+    ports:
+      - "3002:3002"
+    networks:
+      - coffee-network
+
+  sales-service:
+    build: ./sales-microservice
+    container_name: sales-service
+    restart: always
+    environment:
+      DB_HOST: coffee_shop_mysql
+      DB_PORT: 3306
+      DB_USER: admin
+      DB_PASS: admin123
+      DB_NAME: coffee_shop_db
+      PORT: 3003
+    depends_on:
+      coffee_shop_mysql:
+        condition: service_healthy
+    ports:
+      - "3003:3003"
+    networks:
+      - coffee-network
+
+  inventory-service:
+    build: ./inventory-microservice
+    container_name: inventory-service
+    restart: always
+    environment:
+      DB_HOST: coffee_shop_mysql
+      DB_PORT: 3306
+      DB_USER: admin
+      DB_PASS: admin123
+      DB_NAME: coffee_shop_db
+      PORT: 3004
+    depends_on:
+      coffee_shop_mysql:
+        condition: service_healthy
+    ports:
+      - "3004:3004"
+    networks:
+      - coffee-network
+
+networks:
+  coffee-network:
+    driver: bridge
+
+volumes:
+  coffee_mysql_data:

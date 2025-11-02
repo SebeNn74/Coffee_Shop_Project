@@ -28,7 +28,7 @@ export class SaleRepository {
     async update(id: number, data: Partial<Omit<Sale, "id" | "createdAt">>): Promise<Sale|null> {
         await SaleEntity.update(data, { where: { id } });
         const updated = await SaleEntity.findByPk(id);
-        return updated;
+        return updated ? (updated.toJSON() as Sale) : null;
     }
 
     async delete(id: number): Promise<boolean> {
