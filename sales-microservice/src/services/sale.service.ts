@@ -1,6 +1,6 @@
 import { SaleRepository } from "@/repositories/sale.sequelize.repo";
 import { Sale } from "@/models/sale.model"
-import { CreateSaleDTO } from "@/models/dtos/create-sale.dto"
+import { CreateSaleDTO } from "@/models/dtos/sale.dto"
 import { NotFoundError } from "@/exceptions/domain.error";
 import { InvalidValueError } from "@/exceptions/validation.error";
 
@@ -25,9 +25,9 @@ export class SaleService {
     }
 
     private validateBusinessRules(sale: CreateSaleDTO) {
-        if (this.validateId(sale.userId))
+        if (this.validateId(sale.user_id))
             throw new InvalidValueError("userId", "INVALID_USER_ID")
-        if (this.validateId(sale.customerId))
+        if (this.validateId(sale.customer_id))
             throw new InvalidValueError("customerId", "INVALID_CUSTOMER_ID")
         if (this.validateTotalAmount(sale.totalAmount))
             throw new InvalidValueError("totalAmount", "INVALID_TOTAL_AMOUNT")     

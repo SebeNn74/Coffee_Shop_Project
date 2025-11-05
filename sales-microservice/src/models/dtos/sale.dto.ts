@@ -1,0 +1,13 @@
+export interface CreateSaleDTO {
+    user_id: number;
+    customer_id: number;
+    totalAmount: number;
+    status: 'pending' | 'completed' | 'canceled';
+}
+
+export interface UpdateSaleDTO {
+    user_id?: number;
+    customer_id?: number;
+    totalAmount?: number;
+    status?: 'pending' | 'completed' | 'canceled';
+}

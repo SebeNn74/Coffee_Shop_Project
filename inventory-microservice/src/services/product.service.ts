@@ -1,6 +1,6 @@
 // services/product.service.ts
-import { ProductRepository } from "../repositories/product.repository";
-import { ProductStockRepository } from "../repositories/productStock.repository";
+import { ProductRepository } from "../repositories/product.sequelize.repo";
+import { ProductStockRepository } from "../repositories/product-stock.sequelize.repo";
 import { Product } from "../models/product.model";
 import { CreateProductInput, UpdateProductInput } from "../models/dtos/product.dto";
 
@@ -26,7 +26,7 @@ export const ProductService = {
     const product = await ProductRepository.findById(id);
     if (!product) throw new Error("Product not found");
     await ProductStockRepository.deleteByProductId(id);
-    const deletedCount = await Product.destroy({ where: { id } });
+    const deletedCount = await ProductRepository.delete(id);
     if (deletedCount === 0) throw new Error("No rows deleted");
     return deletedCount;
   },

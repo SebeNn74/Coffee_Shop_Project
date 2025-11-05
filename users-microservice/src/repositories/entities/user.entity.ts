@@ -3,7 +3,6 @@ import { sequelize } from "@/config/database";
 import { User } from "@/models/user.model";
 import { CreateUserDto } from "@/models/dtos/create-user.dto";
 
-// Entidad User
 export class UserEntity
     extends Model<User, CreateUserDto>
     implements User {
@@ -12,9 +11,10 @@ export class UserEntity
     declare lastName: string;
     declare email: string;
     declare password: string;
+    declare phone: string;
+    declare isActive: boolean;
 }
 
-// Inicialización de la entidad User
 UserEntity.init(
     {
         id: {
@@ -31,7 +31,7 @@ UserEntity.init(
             allowNull: true
         },
         email: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.STRING(255),
             allowNull: false,
             unique: true
         },
@@ -39,6 +39,15 @@ UserEntity.init(
             type: DataTypes.STRING(255),
             allowNull: false
         },
+        phone: {
+            type: DataTypes.STRING(20),
+            allowNull: false
+        },
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
+        }
     },
     {
         sequelize,

@@ -6,11 +6,11 @@ const router = Router();
 
 const userController = new UserController();
 
-router.get("/getAll", authMiddleware ,userController.getAll);
-router.get("/getById/:id", userController.getById);
-router.post("/createUser", userController.create);
-router.post("/validateUser", userController.validate);
+router.get("/", authMiddleware ,userController.getAll);
+router.get("/:id", userController.getById);
+router.post("/", userController.create);
+router.post("/validate", userController.validate);
 router.post("/login", userController.login)
-router.delete("/deleteUser/:id", userController.delete);
+router.delete("/:id", userController.delete);
 
 export default router;

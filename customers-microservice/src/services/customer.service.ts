@@ -1,6 +1,5 @@
 import { CustomerRepository } from "@/repositories/customer.sequelize.repo";
-import { CreateCustomerDto } from "@/models/dtos/create-customer.dto";
-import { UpdateCustomerDto } from "@/models/dtos/update-customer.dto";
+import { CreateCustomerDto, UpdateCustomerDto } from "@/models/dtos/customer.dto";
 import { Customer } from "@/models/customer.model";
 import { ValidationError } from "@/exceptions/validation.errors";
 import { NotFoundError } from "@/exceptions/domain.errors";

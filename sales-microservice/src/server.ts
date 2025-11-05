@@ -1,33 +1,25 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import app from "./app.js";
-import { connectDB, sequelize } from "./config/database.js";
-import { seedSales } from "./config/seed.js";
-
-// Importar las entidades antes de sincronizar
-import "@/repositories/entities/sale.entity.js";
-import "@/repositories/entities/sale_item.entity.js";
+import app from "./app";
+import { connectDB, syncDB } from "./config/database";
+import { seedSales } from "./config/seed";
 
 const PORT = process.env.PORT || 3003;
 
-app.listen(PORT, async () => {
+async function startServer() {
   try {
-    // Conectar a la base de datos
-    await connectDB();
+    await connectDB(); // Conectar a la base de datos
+    await syncDB(); // Sincronizar las tablas
+    //await seedSales(); // Insertar datos iniciales
 
-    // 2Crear tablas si no existen
-    await sequelize.sync({ alter: true });
-    console.log("Tablas sincronizadas correctamente.");
-
-    // Insertar datos iniciales
-    await seedSales();
-    console.log("Datos iniciales insertados.");
-
-    // Servidor listo
-    console.log(`Sales microservice listening on http://localhost:${PORT}`);
-    console.log(`Health check: http://localhost:${PORT}/health`);
+    app.listen(PORT, () => {
+      console.log(`[Sales] Servidor escuchando en http://localhost:${PORT}`);
+      console.log(`[Sales] Health check: http://localhost:${PORT}/health`);
+    });
   } catch (error) {
-    console.error("Error al iniciar el servicio:", error);
+    console.error("[Sales] Error al iniciar el servidor:", error);
   }
-});
+}
+
+startServer();

@@ -1,7 +1,7 @@
 export interface Sale {
     id: number;
-    userId: number;
-    customerId: number;
+    user_id: number;
+    customer_id: number;
     totalAmount: number;
     status: 'pending' | 'completed' | 'canceled';
     createdAt: Date;
