@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "@/config/database";
 import { Customer } from "@/models/customer.model";
-import { CreateCustomerDto } from "@/models/dtos/create-customer.dto";
+import { CreateCustomerDto } from "@/models/dtos/customer.dto";
 
 // Entidad Customer
 export class CustomerEntity
@@ -11,8 +11,7 @@ export class CustomerEntity
     declare name: string;
     declare phone: string;
     declare email: string;
-    declare address?: string;
-    declare city?: string;
+    declare loyaltyPoints: number;
 }
 
 // Inicialización de la entidad Customer
@@ -32,17 +31,14 @@ CustomerEntity.init(
             allowNull: false
         },
         email: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.STRING(255),
             allowNull: false,
             unique: true
         },
-        address: {
-            type: DataTypes.STRING(255),
-            allowNull: true
-        },
-        city: {
-            type: DataTypes.STRING(100),
-            allowNull: true
+        loyaltyPoints: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            defaultValue: 0
         }
     },
     {

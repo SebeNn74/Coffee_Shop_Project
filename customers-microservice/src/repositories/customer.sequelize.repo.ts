@@ -1,9 +1,9 @@
 import { Customer } from "@/models/customer.model";
 import { CustomerEntity } from "@/repositories/entities/customer.entity";
-import { UpdateCustomerDto } from "@/models/dtos/update-customer.dto";
+import { CreateCustomerDto, UpdateCustomerDto } from "@/models/dtos/customer.dto";
 
 export class CustomerRepository {
-  async create(customer: Omit<Customer, "id">): Promise<Customer> {
+  async create(customer: CreateCustomerDto): Promise<Customer> {
     const created = await CustomerEntity.create(customer);
     return created.toJSON() as Customer;
   }

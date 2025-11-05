@@ -29,8 +29,8 @@ export class SaleRepository {
     return user ? (user.toJSON() as Sale) : null;
   }
 
-  async create(user: CreateSaleDTO): Promise<Sale> {
-    const created = await SaleEntity.create(user);
+  async create(sale: CreateSaleDTO): Promise<Sale> {
+    const created = await SaleEntity.create(sale);
     return created.toJSON() as Sale;
   }
 

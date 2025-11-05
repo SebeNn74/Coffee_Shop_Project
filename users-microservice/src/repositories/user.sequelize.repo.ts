@@ -1,9 +1,10 @@
 import { User } from "@/models/user.model";
 import { UserEntity } from "@/repositories/entities/user.entity";
+import { CreateUserDto } from "@/models/dtos/create-user.dto";
 
 export class UserRepository {
 
-  async create(user: Omit<User, "id">): Promise<User> {
+  async create(user: CreateUserDto): Promise<User> {
     const created = await UserEntity.create(user);
     return created.toJSON() as User;
   }

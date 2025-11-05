@@ -5,14 +5,14 @@ export async function seedSales() {
   await SaleEntity.bulkCreate(
     [
       {
-        userId: 1,
-        customerId: 2,
+        user_id: 1,
+        customer_id: 2,
         totalAmount: 7,
         status: "pending",
       },
       {
-        userId: 2,
-        customerId: 1,
+        user_id: 2,
+        customer_id: 1,
         totalAmount: 3,
         status: "completed",
       },
@@ -22,15 +22,15 @@ export async function seedSales() {
   await SaleItemEntity.bulkCreate(
     [
       {
-        saleId: 1,
-        productId: 2,
+        sale_id: 1,
+        product_id: 2,
         quantity: 1,
         unitPrice: 20000,
         discount: 15,
       },
       {
-        saleId: 2,
-        productId: 8,
+        sale_id: 2,
+        product_id: 8,
         quantity: 2,
         unitPrice: 7500,
       },
