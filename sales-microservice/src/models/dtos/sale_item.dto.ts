@@ -1,6 +1,6 @@
 export interface CreateSaleItemsDTO {
-    saleId: number;
-    productId: number;
+    sale_id: number;
+    product_id: number;
     quantity: number;
     unitPrice: number;
     discount?: number;

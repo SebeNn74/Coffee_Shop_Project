@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
 
 export const sequelize = new Sequelize(
-    process.env.DB_NAME || "coffee_shop_db",
-    process.env.DB_USER || "admin",
-    process.env.DB_PASS || "admin123",
+    process.env.DB_NAME || "coffee_shop",
+    process.env.DB_USER || "root",
+    process.env.DB_PASS || "123",
     {
         host: process.env.DB_HOST || "localhost",
         dialect: 'mysql',

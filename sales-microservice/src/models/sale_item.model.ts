@@ -1,11 +1,11 @@
 import { Sale } from "./sale.model";
 
-export interface SaleItems {
+export interface SaleItem {
     id: number;
-    saleId: number;
-    productId: number;
+    sale_id: number;
+    product_id: number;
     quantity: number;
     unitPrice: number;
-    discount?: number;
+    discount: number;
     sale?: Sale;
 }

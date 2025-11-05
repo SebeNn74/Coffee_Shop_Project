@@ -2,19 +2,19 @@
 // DTOs para Repository (capa de datos)
 // ============================================
 
-import { ProductCreationAttributes } from "../product.model";
-import { ProductStockCreationAttributes } from "../productStock.model";
+export interface CreateProductDTO {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+}
 
-export type ProductCreationAttrs = ProductCreationAttributes;
-
-export interface ProductUpdateAttrs {
+export interface UpdateProductDTO {
   name?: string;
   description?: string;
   price?: number;
   category?: string;
 }
-
-export type ProductStockCreationAttrs = ProductStockCreationAttributes;
 
 // ============================================
 // DTOs para Service (lógica de negocio)
