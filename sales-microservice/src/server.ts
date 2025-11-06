@@ -5,7 +5,7 @@ import app from "./app";
 import { connectDB, syncDB } from "./config/database";
 import { seedSales } from "./config/seed";
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3004;
 
 async function startServer() {
   try {

@@ -4,7 +4,7 @@ dotenv.config();
 import app from "./app";
 import { connectDB, syncDB } from "./config/database";
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 
 async function startServer() {
   try {
