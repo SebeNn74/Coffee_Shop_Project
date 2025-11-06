@@ -59,9 +59,9 @@ services:
     networks:
       - coffee-network
 
-  sales-service:
-    build: ./sales-microservice
-    container_name: sales-service
+  inventory-service:
+    build: ./inventory-microservice
+    container_name: inventory-service
     restart: always
     environment:
       DB_HOST: coffee_shop_mysql
@@ -78,9 +78,9 @@ services:
     networks:
       - coffee-network
 
-  inventory-service:
-    build: ./inventory-microservice
-    container_name: inventory-service
+  sales-service:
+    build: ./sales-microservice
+    container_name: sales-service
     restart: always
     environment:
       DB_HOST: coffee_shop_mysql

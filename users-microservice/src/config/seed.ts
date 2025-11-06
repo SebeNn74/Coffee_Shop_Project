@@ -7,13 +7,15 @@ export async function seedUsers() {
                 name: "Alejandro",
                 lastName: "Novoa",
                 email: "alejandro.novoa@gmail.com",
-                password: "alenov123"
+                password: "alenov123",
+                phone: "1234567890",
             },
             {
                 name: "Samantha",
                 lastName: "Perez",
                 email: "samantha.perez@gmail.com",
-                password: "samper123"
+                password: "samper123",
+                phone: "0987654321",
             }
         ],
         { ignoreDuplicates: true }
