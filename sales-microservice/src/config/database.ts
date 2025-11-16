@@ -23,7 +23,7 @@ export async function connectDB() {
 
 export async function syncDB() {
   try {
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
     console.log("[Sales] Tablas sincronizadas correctamente.");
   } catch (error) {
     console.error("[Sales] Error al sincronizar las tablas:", error);

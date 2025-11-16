@@ -1,13 +1,18 @@
 import { Router } from "express";
 import { SaleController } from "@/controllers/sale.controller"
 
-const saleRouter = Router()
+const router = Router()
 const saleController = new SaleController()
 
-saleRouter.get("/", saleController.getAll)
-saleRouter.get("/:id", saleController.getById)
-saleRouter.post("/", saleController.create)
-saleRouter.patch("/:id", saleController.update)
-saleRouter.delete("/:id", saleController.delete)
+// ENDPOINT HEALTH
+router.get("/health", (req, res) => {
+    res.json({ status: "ok", instance: process.env.HOSTNAME });
+});
 
-export default saleRouter;
+router.get("/", saleController.getAll)
+router.get("/:id", saleController.getById)
+router.post("/", saleController.create)
+router.patch("/:id", saleController.update)
+router.delete("/:id", saleController.delete)
+
+export default router;
