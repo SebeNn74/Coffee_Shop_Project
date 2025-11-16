@@ -20,7 +20,7 @@ CREATE TABLE products (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    price DECIMAL(10,2),
+    price DECIMAL(10,2) NOT NULL,
     category VARCHAR(50)
 );
 

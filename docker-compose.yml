@@ -23,7 +23,8 @@ services:
 
   users-service:
     build: ./users-microservice
-    container_name: users-service
+    deploy:
+      replicas: 2
     restart: always
     environment:
       DB_HOST: coffee_shop_mysql
@@ -35,14 +36,15 @@ services:
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    ports:
+    expose:
       - "3001:3001"
     networks:
       - coffee-network
 
   customers-service:
     build: ./customers-microservice
-    container_name: customers-service
+    deploy:
+      replicas: 2
     restart: always
     environment:
       DB_HOST: coffee_shop_mysql
@@ -54,14 +56,15 @@ services:
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    ports:
+    expose:
       - "3002:3002"
     networks:
       - coffee-network
 
   inventory-service:
     build: ./inventory-microservice
-    container_name: inventory-service
+    deploy:
+      replicas: 2
     restart: always
     environment:
       DB_HOST: coffee_shop_mysql
@@ -73,14 +76,15 @@ services:
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    ports:
+    expose:
       - "3003:3003"
     networks:
       - coffee-network
 
   sales-service:
     build: ./sales-microservice
-    container_name: sales-service
+    deploy:
+      replicas: 2
     restart: always
     environment:
       DB_HOST: coffee_shop_mysql
@@ -92,8 +96,25 @@ services:
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    ports:
+    expose:
       - "3004:3004"
+    networks:
+      - coffee-network
+  
+  nginx:
+    image: nginx:1.25
+    container_name: coffee_shop_nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx_logs:/var/log/nginx
+    depends_on:
+      - users-service
+      - customers-service
+      - inventory-service
+      - sales-service
     networks:
       - coffee-network
 
