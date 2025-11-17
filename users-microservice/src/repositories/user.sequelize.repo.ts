@@ -34,4 +34,11 @@ export class UserRepository {
     return user ? user.email : undefined;
   }
 
+async getByEmail(email: string): Promise<User | null> {
+  const user = await UserEntity.findOne({ where: { email } });
+  return user ? (user.toJSON() as User) : null;
+}
+
+
+
 };

@@ -5,7 +5,8 @@ import { LoginUserDto } from "@/models/dtos/login-user.dto";
 import { User } from "@/models/user.model";
 import { IncompleteCredentialsError, IncorrectCredentialsError, ValidationError } from "@/exceptions/validation.errors";
 import { NotFoundError } from "@/exceptions/domain.errors";
-import { encrypt} from "../utils/cryptoUtils";
+import bcrypt from "bcryptjs";
+import { generateToken } from "@/utils/jwtUtils";
 
 export class UserService {
   private userRepository: UserRepository;
@@ -25,8 +26,13 @@ export class UserService {
 
   async create(dto: CreateUserDto): Promise<User> {
     this.validateBusinessRules(dto);
+
+    const hashed = await bcrypt.hash(dto.password, 10);
+    dto.password = hashed;
+
     return await this.userRepository.create(dto);
-  }
+}
+
 
   async getAll(): Promise<User[]> {
     return await this.userRepository.getAll();
@@ -45,15 +51,23 @@ export class UserService {
     return await this.userRepository.validate(dto.name, dto.password);
   }
 
-  async login(dto: LoginUserDto): Promise<string> {
+async login(dto: LoginUserDto): Promise<any> {
     if (!dto.email?.trim() || !dto.password?.trim())
-      throw new IncompleteCredentialsError();
-    const email = await this.userRepository.login(dto.email, dto.password);
-    if(!email){
-      throw new IncorrectCredentialsError();
-    }
-    return encrypt(email);
-  }
+        throw new IncompleteCredentialsError();
+
+    const user = await this.userRepository.getByEmail(dto.email);
+    if (!user) throw new IncorrectCredentialsError();
+
+    const valid = await bcrypt.compare(dto.password, user.password);
+    if (!valid) throw new IncorrectCredentialsError();
+
+    const token = generateToken({
+        id: user.id,
+        email: user.email
+    });
+
+    return { token };
+}
 
   async delete(id: number): Promise<void> {
     const ok = await this.userRepository.delete(id);
