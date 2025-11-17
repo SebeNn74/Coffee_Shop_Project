@@ -9,6 +9,16 @@ app.use("/products/health", (req, res) => {
     res.json({ status: "ok", instance: process.env.HOSTNAME });
 });
 
+// MIDDLEWARE DE LOGS
+app.use((req, res, next) => {
+    console.log(
+        `[${new Date().toISOString()}] Request to ${req.method} ${
+            req.originalUrl
+        } | Instance: ${process.env.HOSTNAME} | Port: ${process.env.PORT}`
+    );
+    next();
+});
+
 app.use("/products",authMiddleware, productRoutes);
 
 export default app;

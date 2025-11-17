@@ -29,8 +29,8 @@ services:
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    ports:
-      - "3001:3001"
+    expose:
+      - "3001"
     networks:
       - coffee-network
 
@@ -42,8 +42,8 @@ services:
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    ports:
-      - "3002:3002"
+    expose:
+      - "3002"
     networks:
       - coffee-network
 
@@ -55,8 +55,8 @@ services:
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    ports:
-      - "3003:3003"
+    expose:
+      - "3003"
     networks:
       - coffee-network
 
@@ -68,11 +68,11 @@ services:
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    ports:
-      - "3004:3004"
+    expose:
+      - "3004"
     networks:
       - coffee-network
-  
+
   nginx:
     image: nginx:1.25
     container_name: coffee_shop_nginx
