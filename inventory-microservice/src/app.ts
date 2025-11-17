@@ -5,10 +5,6 @@ import { authMiddleware } from "./middlewares/authMiddleware";
 const app = express();
 app.use(express.json());
 
-app.use("/products/health", (req, res) => {
-    res.json({ status: "ok", instance: process.env.HOSTNAME });
-});
-
 // MIDDLEWARE DE LOGS
 app.use((req, res, next) => {
     console.log(
@@ -17,6 +13,11 @@ app.use((req, res, next) => {
         } | Instance: ${process.env.HOSTNAME} | Port: ${process.env.PORT}`
     );
     next();
+});
+
+// ENDPOINT HEALTH
+app.use("/products/health", (req, res) => {
+    res.json({ status: "ok", instance: process.env.HOSTNAME });
 });
 
 app.use("/products",authMiddleware, productRoutes);

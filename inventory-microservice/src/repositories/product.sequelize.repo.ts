@@ -3,9 +3,10 @@ import { ProductEntity } from "./entities/product.entity";
 import { CreateProductDTO, UpdateProductDTO } from "@/models/dtos/product.dto";
 import { ProductStockEntity } from "./entities/product-stock.entity";
 
-export const ProductRepository = {
-  findAll: () =>
-    ProductEntity.findAll({
+export class ProductRepository {
+
+  async getAll(): Promise<Product[]> {
+    const products = await ProductEntity.findAll({
       include: [
         {
           model: ProductStockEntity,
@@ -18,17 +19,28 @@ export const ProductRepository = {
           ],
         },
       ],
-    }),
+    });
+    return products.map((p) => p.toJSON() as Product);
+  }
 
-  findById: (id: number) => ProductEntity.findByPk(id),
-
-  create: (product: CreateProductDTO) => ProductEntity.create(product),
-
-  update: async (id: number, data: UpdateProductDTO) => {
+  async getById(id: number): Promise<Product | null> {
     const product = await ProductEntity.findByPk(id);
-    if (!product) return null;
-    return product.update(data);
-  },
+    return product ? (product.toJSON() as Product) : null;
+  }
 
-  delete: (id: number) => ProductEntity.destroy({ where: { id } }),
+  async create(product: CreateProductDTO): Promise<Product> {
+    const created = await ProductEntity.create(product);
+    return created.toJSON() as Product;
+  }
+
+  async update(id: number, data: UpdateProductDTO): Promise<Product | null> {
+    await ProductEntity.update(data, { where: { id } });
+    const updated = await ProductEntity.findByPk(id);
+    return updated ? (updated.toJSON() as Product) : null;
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const deleted = await ProductEntity.destroy({ where: { id } });
+    return deleted > 0;
+  }
 };

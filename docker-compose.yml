@@ -23,6 +23,8 @@ services:
 
   users-service:
     build: ./users-microservice
+    deploy:
+      replicas: 2
     restart: always
     env_file:
       - ./users-microservice/.env
@@ -36,6 +38,8 @@ services:
 
   customers-service:
     build: ./customers-microservice
+    deploy:
+      replicas: 2
     restart: always
     env_file:
       - ./customers-microservice/.env
@@ -49,6 +53,8 @@ services:
 
   inventory-service:
     build: ./inventory-microservice
+    deploy:
+      replicas: 2
     restart: always
     env_file:
       - ./inventory-microservice/.env
@@ -62,6 +68,8 @@ services:
 
   sales-service:
     build: ./sales-microservice
+    deploy:
+      replicas: 2
     restart: always
     env_file:
       - ./sales-microservice/.env

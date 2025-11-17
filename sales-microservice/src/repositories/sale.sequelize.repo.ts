@@ -25,8 +25,8 @@ export class SaleRepository {
   }
 
   async getById(id: number): Promise<Sale | null> {
-    const user = await SaleEntity.findByPk(id);
-    return user ? (user.toJSON() as Sale) : null;
+    const sale = await SaleEntity.findByPk(id);
+    return sale ? (sale.toJSON() as Sale) : null;
   }
 
   async create(sale: CreateSaleDTO): Promise<Sale> {
