@@ -1,36 +1,55 @@
 // services/product.service.ts
-import { ProductRepository } from "../repositories/product.sequelize.repo";
-import { ProductStockRepository } from "../repositories/product-stock.sequelize.repo";
-import { Product } from "../models/product.model";
-import { CreateProductInput, UpdateProductInput } from "../models/dtos/product.dto";
+import { ProductRepository } from "@/repositories/product.sequelize.repo";
+import { ProductStockRepository } from "@/repositories/product-stock.sequelize.repo";
+import { Product } from "@/models/product.model";
+import { ProductStock } from "@/models/product-stock.model";
+import { CreateProductInput, UpdateProductInput } from "@/models/dtos/product.dto";
+import { NotFoundError } from "@/exceptions/domain.error";
 
-export const ProductService = {
-  getAll: () => ProductRepository.findAll(),
+export class ProductService {
+  private productRepo: ProductRepository;
+  private productStockRepo: ProductStockRepository;
 
-  getById: (id: number) => ProductRepository.findById(id),
+  constructor() {
+    this.productRepo = new ProductRepository;
+    this.productStockRepo = new ProductStockRepository;
+  }
 
-  create: async (data: CreateProductInput) => {
+  async getAll(): Promise<Product[]> {
+    return await this.productRepo.getAll();
+  }
+
+  async getById(id: number): Promise<Product> {
+    const product = await this.productRepo.getById(id);
+    if (!product)
+      throw new NotFoundError(`Producto con id ${id} no encontrado`)
+    return product;
+  }
+
+  async create(data: CreateProductInput): Promise<Product> {
     const { quantity, ...productData } = data;
-    const product = await ProductRepository.create(productData);
-    await ProductStockRepository.create({
+    const product = await this.productRepo.create(productData);
+    await this.productStockRepo.create({
       product_id: product.id,
       quantity: quantity || 0,
     });
     return product;
-  },
+  }
 
-  update: (id: number, data: UpdateProductInput) => 
-    ProductRepository.update(id, data),
+  async update(id: number, data: UpdateProductInput): Promise<Product | null> {
+    return await this.productRepo.update(id, data);
+  }
 
-  delete: async (id: number) => {
-    const product = await ProductRepository.findById(id);
+  async delete(id: number): Promise<void> {
+    const product = await this.productRepo.getById(id);
     if (!product) throw new Error("Product not found");
-    await ProductStockRepository.deleteByProductId(id);
-    const deletedCount = await ProductRepository.delete(id);
-    if (deletedCount === 0) throw new Error("No rows deleted");
-    return deletedCount;
-  },
+    await this.productStockRepo.deleteByProductId(id);
+    const deletedCount = await this.productRepo.delete(id);
+    if (deletedCount) throw new Error("No rows deleted");
+  }
 
-  updateStock: (product_id: number, quantity: number) =>
-    ProductStockRepository.updateQuantity(product_id, quantity),
+  async updateStock(product_id: number, quantity: number): Promise<ProductStock | null> {
+    return await this.productStockRepo.updateQuantity(product_id, quantity)
+  }
+
 };

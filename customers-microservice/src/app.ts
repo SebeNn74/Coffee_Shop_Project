@@ -15,6 +15,11 @@ app.use((req, res, next) => {
     next();
 });
 
+// ENDPOINT HEALTH
+app.use("/customers/health", (req, res) => {
+    res.json({ status: "ok", instance: process.env.HOSTNAME });
+});
+
 app.use("/customers",authMiddleware, customersRouter);
 
 export default app;

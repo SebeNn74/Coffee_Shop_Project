@@ -4,11 +4,6 @@ import { CustomerController } from "@/controllers/customer.controller";
 const router = Router();
 const customerController = new CustomerController();
 
-// ENDPOINT HEALTH
-router.get("/health", (req, res) => {
-    res.json({ status: "ok", instance: process.env.HOSTNAME });
-});
-
 router.get("/", customerController.getAll);
 router.get("/:id", customerController.getById);
 router.post("/", customerController.create);
