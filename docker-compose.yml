@@ -23,80 +23,52 @@ services:
 
   users-service:
     build: ./users-microservice
-    deploy:
-      replicas: 2
     restart: always
-    environment:
-      DB_HOST: coffee_shop_mysql
-      DB_PORT: 3306
-      DB_USER: admin
-      DB_PASS: admin123
-      DB_NAME: coffee_shop_db
-      PORT: 3001
+    env_file:
+      - ./users-microservice/.env
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    expose:
+    ports:
       - "3001:3001"
     networks:
       - coffee-network
 
   customers-service:
     build: ./customers-microservice
-    deploy:
-      replicas: 2
     restart: always
-    environment:
-      DB_HOST: coffee_shop_mysql
-      DB_PORT: 3306
-      DB_USER: admin
-      DB_PASS: admin123
-      DB_NAME: coffee_shop_db
-      PORT: 3002
+    env_file:
+      - ./customers-microservice/.env
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    expose:
+    ports:
       - "3002:3002"
     networks:
       - coffee-network
 
   inventory-service:
     build: ./inventory-microservice
-    deploy:
-      replicas: 2
     restart: always
-    environment:
-      DB_HOST: coffee_shop_mysql
-      DB_PORT: 3306
-      DB_USER: admin
-      DB_PASS: admin123
-      DB_NAME: coffee_shop_db
-      PORT: 3003
+    env_file:
+      - ./inventory-microservice/.env
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    expose:
+    ports:
       - "3003:3003"
     networks:
       - coffee-network
 
   sales-service:
     build: ./sales-microservice
-    deploy:
-      replicas: 2
     restart: always
-    environment:
-      DB_HOST: coffee_shop_mysql
-      DB_PORT: 3306
-      DB_USER: admin
-      DB_PASS: admin123
-      DB_NAME: coffee_shop_db
-      PORT: 3004
+    env_file:
+      - ./sales-microservice/.env
     depends_on:
       coffee_shop_mysql:
         condition: service_healthy
-    expose:
+    ports:
       - "3004:3004"
     networks:
       - coffee-network

@@ -3,11 +3,6 @@ import { ProductController } from "../controllers/product.controller";
 
 const router = Router();
 
-// ENDPOINT HEALTH
-router.get("/health", (req, res) => {
-    res.json({ status: "ok", instance: process.env.HOSTNAME });
-});
-
 router.get("/", ProductController.getAll);
 router.get("/:id", ProductController.getById);
 router.post("/", ProductController.create);
