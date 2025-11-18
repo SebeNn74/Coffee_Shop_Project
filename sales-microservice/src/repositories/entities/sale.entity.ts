@@ -1,10 +1,10 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "@/config/database";
 import { Sale } from "@/models/sale.model";
-import { CreateSaleDTO } from "@/models/dtos/sale.dto";
+import { CreateSaleDataDTO } from "@/models/dtos/sale.dto";
 import { SaleItemEntity } from "./sale_item.entity";
 
-export class SaleEntity extends Model<Sale, CreateSaleDTO> implements Sale {
+export class SaleEntity extends Model<Sale, CreateSaleDataDTO> implements Sale {
   declare id: number;
   declare user_id: number;
   declare customer_id: number;
