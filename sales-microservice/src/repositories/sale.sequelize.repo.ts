@@ -1,7 +1,7 @@
 import { Sale } from "@/models/sale.model";
 import { SaleEntity } from "./entities/sale.entity";
 import { SaleItemEntity } from "./entities/sale_item.entity";
-import { CreateSaleDTO, UpdateSaleDTO } from "@/models/dtos/sale.dto";
+import { CreateSaleDataDTO, UpdateSaleDTO } from "@/models/dtos/sale.dto";
 
 export class SaleRepository {
   async getAll(): Promise<Sale[]> {
@@ -29,7 +29,7 @@ export class SaleRepository {
     return sale ? (sale.toJSON() as Sale) : null;
   }
 
-  async create(sale: CreateSaleDTO): Promise<Sale> {
+  async create(sale: CreateSaleDataDTO): Promise<Sale> {
     const created = await SaleEntity.create(sale);
     return created.toJSON() as Sale;
   }
